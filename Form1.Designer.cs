@@ -20,7 +20,6 @@
             base.Dispose(disposing);
         }
 
-        #region Windows Form Designer generated code
 
         /// <summary>
         ///  Required method for Designer support - do not modify
@@ -188,7 +187,6 @@
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(982, 603);
             Controls.Add(btnSearch);
-            Controls.Add(btnClear);
             Controls.Add(btnDelete);
             Controls.Add(dgvAnimals);
             Controls.Add(btnAdd);
