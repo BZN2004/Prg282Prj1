@@ -1,7 +1,11 @@
+using System.Data;
+
 namespace Prg282Prj
 {
     public partial class Form1 : Form
     {
+        //DataTable holding all data fro the datagridview
+        DataTable dataHolder = new DataTable();
         public Form1()
         {
             InitializeComponent();
@@ -138,7 +142,40 @@ namespace Prg282Prj
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            //Loading the correct columns for the datatable
+            dataHolder.Columns.Add("ID", typeof(string));
+            dataHolder.Columns.Add("Name", typeof(string));
+            dataHolder.Columns.Add("Species", typeof(string));
+            dataHolder.Columns.Add("Age", typeof(int));
+            dataHolder.Columns.Add("Recovery Score", typeof(int));
+            dataHolder.Columns.Add("Recovery Condition", typeof(string));
+            dataHolder.Columns.Add("Housing Unit", typeof(string));
 
+
+            string filePath = "animals.txt";
+
+            //DataGridview Showing on opening of application
+
+            //checking if the file exists
+            if (File.Exists(filePath))
+            {
+                FileStream fs = new FileStream(filePath, FileMode.Open);
+                StreamReader sr = new StreamReader(fs);
+
+                string line;
+                //Getting each line in the text file
+                while ((line = sr.ReadLine()) != null)
+                {
+                    //Creating a array that holds each seperate value of the animal
+                    string[] lines = line.Split('|');
+                    //Adding each value into the correct column with the correct type
+                    dataHolder.Rows.Add(lines[0], lines[1], lines[2], int.Parse(lines[3]), int.Parse(lines[4]), lines[5], lines[6]);
+                }
+                sr.Close();
+                fs.Close();
+                //Setting it to show in the datagridview
+                dgvAnimals.DataSource = dataHolder;
+            }
         }
 
         private void btnSave_Click(object sender, EventArgs e)
