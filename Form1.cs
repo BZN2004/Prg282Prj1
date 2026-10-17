@@ -147,7 +147,12 @@ namespace Prg282Prj
 
         private void btnClear_Click(object sender, EventArgs e)
         {
-
+            // Clearing text from textboxes
+            IDtxt.Clear();
+            Nametxt.Clear();
+            Speciestxt.Clear();
+            Agetxt.Clear();
+            Scoretxt.Clear();
         }
 
         private void Form1_Load(object sender, EventArgs e)
