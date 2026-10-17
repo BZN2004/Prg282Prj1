@@ -18,9 +18,12 @@ namespace Prg282Prj
 
         private void dgvAnimals_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
+            // Getting the index of the cell clicked
             int index = dgvAnimals.CurrentCell.RowIndex;
+            // Creating a object to hold all the data of the selected row
             DataGridViewRow row = dgvAnimals.Rows[index];
 
+            //Assigning all the data to the correct textboxes
             IDtxt.Text = row.Cells[0].Value.ToString();
             Nametxt.Text = row.Cells[1].Value.ToString();
             Speciestxt.Text = row.Cells[2].Value.ToString();
