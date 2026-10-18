@@ -6,8 +6,10 @@ using System.Windows.Forms;
 
 namespace Prg282Prj
 {
+    // Created the summary feature as a partial class of Form1
     public partial class Form1
     {
+        // Loaded the animals and calculated and displayed and saved the summary
         private void GenerateSummary()
         {
             List<Animal> animals;
@@ -31,9 +33,10 @@ namespace Prg282Prj
             }
 
             SummaryResult result = SummaryService.Calculate(animals);
-            DateTime now = DateTime.Now;
 
-            txtSummary.Text = SummaryService.BuildReport(result, now).Replace("\n", "\r\n");
+            DateTime now = DateTime.Now; // Used to get the current date and time for the report and the file name
+
+            txtSummary.Text = SummaryService.BuildReport(result, now);
 
             if (!SummaryService.TryWriteReport(result, now, out string errorMessage))
             {
@@ -52,6 +55,7 @@ namespace Prg282Prj
                 using (StreamReader reader = new StreamReader(path))
                 {
                     string? line;
+
                     while ((line = reader.ReadLine()) != null)
                     {
                         string[] fields = line.Split('|');
@@ -69,6 +73,7 @@ namespace Prg282Prj
                                 AnimalAge = age,
                                 RecoveryScore = score
                             };
+
                             animal.Classification();
                             animals.Add(animal);
                         }
