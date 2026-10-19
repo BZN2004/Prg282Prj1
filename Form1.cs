@@ -16,6 +16,32 @@ namespace Prg282Prj
 
         }
 
+        public void DataRefresh()
+        {
+            dataHolder.Rows.Clear();
+            string filePath = Path.Combine(Application.StartupPath, @"..\..\..\animals.txt");
+            //checking if the file exists
+            if (File.Exists(filePath))
+            {
+                FileStream fs = new FileStream(filePath, FileMode.Open);
+                StreamReader sr = new StreamReader(fs);
+
+                string line;
+                //Getting each line in the text file
+                while ((line = sr.ReadLine()) != null)
+                {
+                    //Creating a array that holds each seperate value of the animal
+                    string[] lines = line.Split('|');
+                    //Adding each value into the correct column with the correct type
+                    dataHolder.Rows.Add(lines[0], lines[1], lines[2], int.Parse(lines[3]), int.Parse(lines[4]), lines[5], lines[6]);
+                }
+                sr.Close();
+                fs.Close();
+                //Setting it to show in the datagridview
+                dgvAnimals.DataSource = dataHolder;
+            }
+        }
+
         private void dgvAnimals_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             // Getting the index of the cell clicked
@@ -92,7 +118,7 @@ namespace Prg282Prj
                 }
 
                 // 5. Validate Uniqueness against animals.txt
-                string filePath = "animals.txt";
+                string filePath = Path.Combine(Application.StartupPath, @"..\..\..\animals.txt");
                 if (System.IO.File.Exists(filePath))
                 {
                     string[] existingRecords = System.IO.File.ReadAllLines(filePath);
@@ -134,6 +160,8 @@ namespace Prg282Prj
                 MessageBox.Show("Error saving to file: " + ex.Message);
             }
 
+            //DataGridView Add Response
+            DataRefresh();
 
         }
         private void btnSearch_Click(object sender, EventArgs e)
@@ -166,27 +194,7 @@ namespace Prg282Prj
             string filePath = Path.Combine(Application.StartupPath, @"..\..\..\animals.txt");
 
             //DataGridview Showing on opening of application
-
-            //checking if the file exists
-            if (File.Exists(filePath))
-            {
-                FileStream fs = new FileStream(filePath, FileMode.Open);
-                StreamReader sr = new StreamReader(fs);
-
-                string line;
-                //Getting each line in the text file
-                while ((line = sr.ReadLine()) != null)
-                {
-                    //Creating a array that holds each seperate value of the animal
-                    string[] lines = line.Split('|');
-                    //Adding each value into the correct column with the correct type
-                    dataHolder.Rows.Add(lines[0], lines[1], lines[2], int.Parse(lines[3]), int.Parse(lines[4]), lines[5], lines[6]);
-                }
-                sr.Close();
-                fs.Close();
-                //Setting it to show in the datagridview
-                dgvAnimals.DataSource = dataHolder;
-            }
+            DataRefresh();
         }
 
         private void btnSave_Click(object sender, EventArgs e)
