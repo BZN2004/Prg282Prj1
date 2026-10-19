@@ -40,10 +40,6 @@ namespace Prg282Prj
         {
 
         }
-        private void btnUpdate_Click(object sender, EventArgs e)
-        {
-
-        }
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
@@ -166,8 +162,8 @@ namespace Prg282Prj
             dataHolder.Columns.Add("Recovery Condition", typeof(string));
             dataHolder.Columns.Add("Housing Unit", typeof(string));
 
-
-            string filePath = "animals.txt";
+            //Ensures that it uses the animal.txt in the application files, and not create a new one in the debug bin
+            string filePath = Path.Combine(Application.StartupPath, @"..\..\..\animals.txt");
 
             //DataGridview Showing on opening of application
 
@@ -195,6 +191,92 @@ namespace Prg282Prj
 
         private void btnSave_Click(object sender, EventArgs e)
         {
+
+        }
+
+        private void btnUpdate_Click(object sender, EventArgs e)
+        {
+            string filePath = Path.Combine(Application.StartupPath, @"..\..\..\animals.txt");
+
+            // Getting the index of the cell clicked
+            int index = dgvAnimals.CurrentCell.RowIndex;
+            // Creating a object to hold all the data of the selected row
+            DataRow row = dataHolder.Rows[index];
+
+            // Using the same validation as Adding to ensure formatting stays the same
+            // 1. Get raw text inputs and format ID
+            string animalID = IDtxt.Text.Trim().ToUpper();
+            string animalName = Nametxt.Text.Trim();
+            string animalSpecies = Speciestxt.Text.Trim();
+            string ageText = Agetxt.Text.Trim();
+            string scoreText = Scoretxt.Text.Trim();
+
+            // 2. Validate Age and Score (prevents crashes from letters or blank inputs)
+            if (!int.TryParse(ageText, out int animalAge) || animalAge < 0 || animalAge > 100)
+            {
+                MessageBox.Show("Age must be a whole number between 0 and 100.");
+                Agetxt.Focus();
+                return;
+            }
+
+            if (!int.TryParse(scoreText, out int recoveryScore) || recoveryScore < 0 || recoveryScore > 100)
+            {
+                MessageBox.Show("Recovery Score must be a whole number between 0 and 100.");
+                Scoretxt.Focus();
+                return;
+            }
+
+            // 3. Validate ID format (Must be WR- followed by 4 digits)
+            if (!animalID.StartsWith("WR-") || animalID.Length != 7 || !int.TryParse(animalID.Substring(3), out _))
+            {
+                MessageBox.Show("Animal ID must be WR- followed by exactly 4 digits (e.g., WR-0007).");
+                IDtxt.Focus();
+                return;
+            }
+
+            // 4. Validate Name and Species
+            if (string.IsNullOrEmpty(animalName) || animalName.Length > 30 || animalName.Contains("|"))
+            {
+                MessageBox.Show("Name is required, must be 1-30 characters, and cannot contain the pipe (|) character.");
+                Nametxt.Focus();
+                return;
+            }
+
+            if (string.IsNullOrEmpty(animalSpecies) || animalSpecies.Length > 30 || animalSpecies.Contains("|"))
+            {
+                MessageBox.Show("Species is required, must be 1-30 characters, and cannot contain the pipe (|) character.");
+                Speciestxt.Focus();
+                return;
+            }
+            //Updating the DataTable
+            row[0] = animalID;
+            row[1] = animalName;
+            row[2] = animalSpecies;
+            row[3] = animalAge;
+            row[4] = recoveryScore;
+            //Updating the data grid view
+            dgvAnimals.CurrentRow.Cells[0].Value = animalID;
+            dgvAnimals.CurrentRow.Cells[1].Value = animalName;
+            dgvAnimals.CurrentRow.Cells[2].Value = animalSpecies;
+            dgvAnimals.CurrentRow.Cells[3].Value = animalAge;
+            dgvAnimals.CurrentRow.Cells[4].Value = recoveryScore;
+
+            //Saving the data by rewriting the whole text document
+            List<string> lines = new List<string>();
+            foreach (DataRow dr in dataHolder.Rows)
+            {
+                Animal animal = new Animal();
+                animal.AnimalID = dr[0].ToString();
+                animal.AnimalName = dr[1].ToString();
+                animal.AnimalSpecies = dr[2].ToString();
+                animal.AnimalAge = int.Parse(dr[3].ToString());
+                animal.RecoveryScore = int.Parse(dr[4].ToString());
+
+                animal.Classification();
+                lines.Add(animal.ToFileFormat());
+            }
+
+            File.WriteAllLines(filePath, lines);
 
         }
     }
