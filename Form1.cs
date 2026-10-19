@@ -24,7 +24,88 @@ namespace Prg282Prj
 
         private void btnDelete_Click(object sender, EventArgs e)
         {
+                    private void btnDelete_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // Determine ID to delete: prefer ID textbox, fallback to selected row in grid
+                string animalID = IDtxt.Text.Trim().ToUpper();
+                if (string.IsNullOrEmpty(animalID) && dgvAnimals.SelectedRows.Count > 0)
+                {
+                    var cell = dgvAnimals.SelectedRows[0].Cells[0].Value;
+                    if (cell != null)
+                        animalID = cell.ToString().Trim().ToUpper();
+                }
 
+                if (string.IsNullOrEmpty(animalID))
+                {
+                    MessageBox.Show("Please enter or select an Animal ID to delete.");
+                    IDtxt.Focus();
+                    return;
+                }
+
+                // Basic ID format validation (WR-####)
+                if (!animalID.StartsWith("WR-") || animalID.Length != 7 || !int.TryParse(animalID.Substring(3), out _))
+                {
+                    MessageBox.Show("Animal ID must be WR- followed by exactly 4 digits (e.g., WR-0007).");
+                    IDtxt.Focus();
+                    return;
+                }
+
+                // Confirm deletion with the user
+                var confirm = MessageBox.Show($"Are you sure you want to delete record {animalID}? This cannot be undone.", "Confirm Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                if (confirm != DialogResult.Yes)
+                    return;
+
+                string[] allLines = ReadAnimalFileLines();
+                if (allLines == null)
+                    return;
+                var remaining = new System.Collections.Generic.List<string>();
+                bool removed = false;
+
+                foreach (string line in allLines)
+                {
+                    if (string.IsNullOrWhiteSpace(line))
+                        continue;
+
+                    string[] parts = line.Split('|');
+                    if (parts.Length == 0)
+                        continue;
+
+                    string idInFile = parts[0].Trim().ToUpper();
+                    if (idInFile == animalID)
+                    {
+                        removed = true;
+                        continue; // skip adding this line
+                    }
+
+                    remaining.Add(line);
+                }
+
+                if (!removed)
+                {
+                    MessageBox.Show("No record found with that Animal ID.");
+                    return;
+                }
+
+                if (!TryWriteAnimalFileLines(remaining))
+                    return;
+
+                MessageBox.Show($"Deleted record {animalID}.");
+
+                // Clear inputs and refresh grid
+                IDtxt.Clear();
+                Nametxt.Clear();
+                Speciestxt.Clear();
+                Agetxt.Clear();
+                Scoretxt.Clear();
+
+                RefreshGrid();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error deleting record: " + ex.Message);
+            }
         }
         private void btnUpdate_Click(object sender, EventArgs e)
         {
@@ -138,7 +219,57 @@ namespace Prg282Prj
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            private void Form1_Load(object sender, EventArgs e)
+{
+    // Load any existing animals into the grid on startup
+    RefreshGrid();
+}
 
+/// <summary>
+/// Reads animals.txt and loads the records into the DataGridView.
+/// </summary>
+private void RefreshGrid()
+{
+    try
+    {
+        var list = new System.Collections.Generic.List<Animal>();
+        string[] lines = ReadAnimalFileLines();
+        if (lines == null)
+            return; // read error already shown to user
+
+        foreach (string line in lines)
+        {
+            if (string.IsNullOrWhiteSpace(line))
+                continue;
+
+            string[] parts = line.Split('|');
+            // skip malformed lines that do not contain at least ID,Name,Species,Age,Score
+            if (parts.Length < 5)
+                continue;
+
+            var a = new Animal();
+            a.AnimalID = parts[0].Trim();
+            a.AnimalName = parts[1].Trim();
+            a.AnimalSpecies = parts[2].Trim();
+            if (int.TryParse(parts[3].Trim(), out int age))
+                a.AnimalAge = age;
+            if (int.TryParse(parts[4].Trim(), out int score))
+                a.RecoveryScore = score;
+
+            // Recompute classification to ensure Status/Housing are populated
+            a.Classification();
+
+            list.Add(a);
+        }
+
+        dgvAnimals.DataSource = null;
+        dgvAnimals.DataSource = list;
+    }
+    catch (Exception ex)
+    {
+        MessageBox.Show("Error loading data: " + ex.Message);
+    }
+}
         }
 
         private void btnSave_Click(object sender, EventArgs e)
