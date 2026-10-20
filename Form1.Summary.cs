@@ -16,7 +16,7 @@ namespace Prg282Prj
 
             try
             {
-                //This method will be replaced with the file loader method once it is complete. It is here to allow the summary report to be generated and tested while the file loader is still being developed.
+                //Here is the call to the method that loads the animals for the summary report. It is here to allow the summary report to be generated.
                 animals = LoadAnimalsForSummary();
             }
             catch (UnauthorizedAccessException)
@@ -44,7 +44,7 @@ namespace Prg282Prj
             }
         }
 
-        //This is temporary and will be removed once the file loader method is complete. It is here to allow the summary report to be generated and tested while the file loader is still being developed.
+        //This is the file loader method. It is here to allow the summary report to be generated.
         private List<Animal> LoadAnimalsForSummary()
         {
             List<Animal> animals = new List<Animal>();
