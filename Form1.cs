@@ -517,5 +517,13 @@ namespace Prg282Prj
             File.WriteAllLines(filePath, lines);
 
         }
+        cd path/to/Prg282Prj1
+        git status
+        git remote -v
+        git remote add origin https:github.com/BZN2004/Prg282Prj1.git
+        git branch dataBinding;
+        git add form1.cs
+        git commit -m "Fixed bug where selecting a cell didn't load data to textboxes"
+        git push -u origin main
     }
 }
