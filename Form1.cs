@@ -16,14 +16,14 @@ namespace Prg282Prj
 
         }
         private void btnClear_Click(object sender, EventArgs e)
-{
-    // Clearing text from textboxes
-    IDtxt.Clear();
-    Nametxt.Clear();
-    Speciestxt.Clear();
-    Agetxt.Clear();
-    Scoretxt.Clear();
-}
+        {
+            // Clearing text from textboxes
+            IDtxt.Clear();
+            Nametxt.Clear();
+            Speciestxt.Clear();
+            Agetxt.Clear();
+            Scoretxt.Clear();
+        }
 
         public void DataRefresh()
         {
@@ -301,18 +301,6 @@ namespace Prg282Prj
             }
          }
          
-
-         private void btnClear_Click(object sender, EventArgs e)
-         {
-             // Clearing text from textboxes
-             IDtxt.Clear();
-             Nametxt.Clear();
-             Speciestxt.Clear();
-             Agetxt.Clear();
-             Scoretxt.Clear();
-         }
-
-
          private void Form1_Load(object sender, EventArgs e)
         {
             // Load any existing animals into the grid on startup
@@ -517,13 +505,5 @@ namespace Prg282Prj
             File.WriteAllLines(filePath, lines);
 
         }
-        cd path/to/Prg282Prj1
-        git status
-        git remote -v
-        git remote add origin https:github.com/BZN2004/Prg282Prj1.git
-        git branch dataBinding;
-        git add form1.cs
-        git commit -m "Fixed bug where selecting a cell didn't load data to textboxes"
-        git push -u origin main
     }
 }
