@@ -19,7 +19,7 @@ namespace Prg282Prj
 
         private void btnSummary_Click(object sender, EventArgs e)
         {
-
+            GenerateSummary();
         }
 
         private void btnDelete_Click(object sender, EventArgs e)
