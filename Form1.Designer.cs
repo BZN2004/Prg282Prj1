@@ -45,6 +45,7 @@
             txtSearchID = new TextBox();
             btnSave = new Button();
             grpSummary = new GroupBox();
+            txtSummary = new TextBox();
             btnUpdate = new Button();
             ((System.ComponentModel.ISupportInitialize)dgvAnimals).BeginInit();
             grpSummary.SuspendLayout();
@@ -200,7 +201,7 @@
             // 
             // btnClear
             // 
-            btnClear.Location = new Point(306, 76);
+            btnClear.Location = new Point(217, 76);
             btnClear.Margin = new Padding(3, 2, 3, 2);
             btnClear.Name = "btnClear";
             btnClear.Size = new Size(87, 32);
@@ -239,6 +240,7 @@
             // 
             // grpSummary
             // 
+            grpSummary.Controls.Add(txtSummary);
             grpSummary.Controls.Add(btnSummary);
             grpSummary.Location = new Point(39, 412);
             grpSummary.Margin = new Padding(3, 2, 3, 2);
@@ -249,9 +251,20 @@
             grpSummary.TabStop = false;
             grpSummary.Text = "SummaryBox";
             // 
+            // txtSummary
+            // 
+            txtSummary.Font = new Font("Consolas", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            txtSummary.Location = new Point(14, 21);
+            txtSummary.Multiline = true;
+            txtSummary.Name = "txtSummary";
+            txtSummary.ReadOnly = true;
+            txtSummary.ScrollBars = ScrollBars.Vertical;
+            txtSummary.Size = new Size(644, 135);
+            txtSummary.TabIndex = 14;
+            // 
             // btnUpdate
             // 
-            btnUpdate.Location = new Point(218, 76);
+            btnUpdate.Location = new Point(523, 344);
             btnUpdate.Margin = new Padding(3, 2, 3, 2);
             btnUpdate.Name = "btnUpdate";
             btnUpdate.Size = new Size(82, 32);
@@ -291,6 +304,7 @@
             Load += Form1_Load;
             ((System.ComponentModel.ISupportInitialize)dgvAnimals).EndInit();
             grpSummary.ResumeLayout(false);
+            grpSummary.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -318,5 +332,6 @@
         private Button btnSave;
         private GroupBox grpSummary;
         private Button btnUpdate;
+        private TextBox txtSummary;
     }
 }
