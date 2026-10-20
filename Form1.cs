@@ -57,6 +57,15 @@ namespace Prg282Prj
         private void dgvAnimals_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             GenerateSummary();
+
+            int index = dgvAnimals.CurrentCell.RowIndex;
+            DataGridViewRow row = dgvAnimals.Rows[index];
+
+            IDtxt.Text = row.Cells[0].Value.ToString();
+            Nametxt.Text = row.Cells[1].Value.ToString();
+            Speciestxt.Text = row.Cells[2].Value.ToString();
+            Agetxt.Text = row.Cells[3].Value.ToString();
+            Scoretxt.Text = row.Cells[4].Value.ToString();
         }
 
         private void btnSummary_Click(object sender, EventArgs e)
