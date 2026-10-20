@@ -84,87 +84,7 @@ namespace Prg282Prj
 
         private void btnDelete_Click(object sender, EventArgs e)
         {
-            /* try
-             {
-                 // Determine ID to delete: prefer ID textbox, fallback to selected row in grid
-                 string animalID = IDtxt.Text.Trim().ToUpper();
-                 if (string.IsNullOrEmpty(animalID) && dgvAnimals.SelectedRows.Count > 0)
-                 {
-                     var cell = dgvAnimals.SelectedRows[0].Cells[0].Value;
-                     if (cell != null)
-                         animalID = cell.ToString().Trim().ToUpper();
-                 }
-
-                 if (string.IsNullOrEmpty(animalID))
-                 {
-                     MessageBox.Show("Please enter or select an Animal ID to delete.");
-                     IDtxt.Focus();
-                     return;
-                 }
-
-                 // Basic ID format validation (WR-####)
-                 if (!animalID.StartsWith("WR-") || animalID.Length != 7 || !int.TryParse(animalID.Substring(3), out _))
-                 {
-                     MessageBox.Show("Animal ID must be WR- followed by exactly 4 digits (e.g., WR-0007).");
-                     IDtxt.Focus();
-                     return;
-                 }
-
-                 // Confirm deletion with the user
-                 var confirm = MessageBox.Show($"Are you sure you want to delete record {animalID}? This cannot be undone.", "Confirm Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-                 if (confirm != DialogResult.Yes)
-                     return;
-
-                 string[] allLines = ReadAnimalFileLines();
-                 if (allLines == null)
-                     return;
-                 var remaining = new System.Collections.Generic.List<string>();
-                 bool removed = false;
-
-                 foreach (string line in allLines)
-                 {
-                     if (string.IsNullOrWhiteSpace(line))
-                         continue;
-
-                     string[] parts = line.Split('|');
-                     if (parts.Length == 0)
-                         continue;
-
-                     string idInFile = parts[0].Trim().ToUpper();
-                     if (idInFile == animalID)
-                     {
-                         removed = true;
-                         continue; // skip adding this line
-                     }
-
-                     remaining.Add(line);
-                 }
-
-                 if (!removed)
-                 {
-                     MessageBox.Show("No record found with that Animal ID.");
-                     return;
-                 }
-
-                 if (!TryWriteAnimalFileLines(remaining))
-                     return;
-
-                 MessageBox.Show($"Deleted record {animalID}.");
-
-                 // Clear inputs and refresh grid
-                 IDtxt.Clear();
-                 Nametxt.Clear();
-                 Speciestxt.Clear();
-                 Agetxt.Clear();
-                 Scoretxt.Clear();
-
-                 RefreshGrid();
-             }
-             catch (Exception ex)
-             {
-                 MessageBox.Show("Error deleting record: " + ex.Message);
-             }
-             */
+           
         }
 
         private void btnAdd_Click(object sender, EventArgs e)
@@ -266,7 +186,7 @@ namespace Prg282Prj
          }
          private void btnSearch_Click(object sender, EventArgs e)
          {
-            string search = txtSearchID.Text.Trim();
+            string search = txtSearchID.Text.ToUpper().Trim();
             bool found = false;
 
             if (!search.StartsWith("WR-") || string.IsNullOrEmpty(search) || search.Length != 7)
@@ -309,9 +229,7 @@ namespace Prg282Prj
         }
 
 
-        /// <summary>
-        /// Reads animals.txt and loads the records into the DataGridView.
-        /// </summary>
+        // Reads animals.txt and loads the records into the DataGridView.
         private void RefreshGrid()
         {
             //Loading the correct columns for the datatable
@@ -348,76 +266,6 @@ namespace Prg282Prj
                 //Setting it to show in the datagridview
                 dgvAnimals.DataSource = dataHolder;
             }
-        }
-        
-
-        private void btnSave_Click(object sender, EventArgs e)
-        {
-             /* string id = txtAnimalId.Text.Trim();
-  string name = txtName.Text.Trim();
-  string species = txtSpecies.Text.Trim();
-
-  if (id.Length == 0 || name.Length == 0 || species.Length == 0)
-  {
-      MessageBox.Show("Animal ID, Name and Species are required.", "Missing Data",
-          MessageBoxButtons.OK, MessageBoxIcon.Warning);
-      return;
-  }
-  if (id.Contains("|") || name.Contains("|") || species.Contains("|"))
-  {
-      MessageBox.Show("The '|' character is not allowed.", "Invalid Character",
-          MessageBoxButtons.OK, MessageBoxIcon.Warning);
-      return;
-  }
-  if (!int.TryParse(txtAge.Text.Trim(), out int age) || age < 0)
-  {
-      MessageBox.Show("Age must be a whole number of 0 or more.", "Invalid Age",
-          MessageBoxButtons.OK, MessageBoxIcon.Warning);
-      return;
-  }
-  if (!int.TryParse(txtRecoveryScore.Text.Trim(), out int score) || score < 0 || score > 100)
-  {
-      MessageBox.Show("Recovery Score must be a whole number from 0 to 100.", "Invalid Score",
-          MessageBoxButtons.OK, MessageBoxIcon.Warning);
-      return;
-  }
-  var animal = new Animal
-  {
-      AnimalID = id,
-      AnimalName = name,
-      AnimalSpecies = species,
-      AnimalAge = age,
-      RecoveryScore = score
-  };
-  animal.Classification();
-
-  try
-  {
-      var lines = new List<string>(File.ReadAllLines(_filePath));
-      int index = lines.FindIndex(l =>
-          string.Equals(l.Split('|')[0].Trim(), id, StringComparison.OrdinalIgnoreCase));
-
-      if (index >= 0) lines[index] = animal.ToFileFormat();
-      else lines.Add(animal.ToFileFormat());
-
-      File.WriteAllLines(_filePath, lines);
-  }
-  catch (UnauthorizedAccessException)
-  {
-      MessageBox.Show("Access to animals.txt was denied. Nothing was saved.", "Permission Error",
-          MessageBoxButtons.OK, MessageBoxIcon.Error);
-      return;
-  }
-  catch (IOException)
-  {
-      MessageBox.Show("animals.txt is in use by another program. Nothing was saved.", "File In Use",
-          MessageBoxButtons.OK, MessageBoxIcon.Warning);
-      return;
-  }
-
-  // 4. Refresh the grid
-  LoadAnimals();
- */
         }
 
         private void btnUpdate_Click(object sender, EventArgs e)

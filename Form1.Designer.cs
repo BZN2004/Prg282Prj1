@@ -43,7 +43,6 @@
             btnClear = new Button();
             lblSearchID = new Label();
             txtSearchID = new TextBox();
-            btnSave = new Button();
             grpSummary = new GroupBox();
             txtSummary = new TextBox();
             btnUpdate = new Button();
@@ -226,18 +225,6 @@
             txtSearchID.Size = new Size(163, 23);
             txtSearchID.TabIndex = 16;
             // 
-            // btnSave
-            // 
-            btnSave.Enabled = false;
-            btnSave.Location = new Point(436, 344);
-            btnSave.Margin = new Padding(3, 2, 3, 2);
-            btnSave.Name = "btnSave";
-            btnSave.Size = new Size(82, 32);
-            btnSave.TabIndex = 17;
-            btnSave.Text = "Save";
-            btnSave.UseVisualStyleBackColor = true;
-            btnSave.Click += btnSave_Click;
-            // 
             // grpSummary
             // 
             grpSummary.Controls.Add(txtSummary);
@@ -264,7 +251,7 @@
             // 
             // btnUpdate
             // 
-            btnUpdate.Location = new Point(523, 344);
+            btnUpdate.Location = new Point(310, 77);
             btnUpdate.Margin = new Padding(3, 2, 3, 2);
             btnUpdate.Name = "btnUpdate";
             btnUpdate.Size = new Size(82, 32);
@@ -280,7 +267,6 @@
             ClientSize = new Size(821, 664);
             Controls.Add(btnUpdate);
             Controls.Add(grpSummary);
-            Controls.Add(btnSave);
             Controls.Add(txtSearchID);
             Controls.Add(lblSearchID);
             Controls.Add(btnClear);
@@ -329,7 +315,6 @@
         private Button btnClear;
         private Label lblSearchID;
         private TextBox txtSearchID;
-        private Button btnSave;
         private GroupBox grpSummary;
         private Button btnUpdate;
         private TextBox txtSummary;
