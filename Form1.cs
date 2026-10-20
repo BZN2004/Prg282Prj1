@@ -11,10 +11,6 @@ namespace Prg282Prj
             InitializeComponent();
         }
 
-        private void label2_Click(object sender, EventArgs e)
-        {
-
-        }
         private void btnClear_Click(object sender, EventArgs e)
         {
             // Clearing text from textboxes
@@ -65,7 +61,6 @@ namespace Prg282Prj
 
         private void dgvAnimals_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            GenerateSummary();
 
             int index = dgvAnimals.CurrentCell.RowIndex;
             DataGridViewRow row = dgvAnimals.Rows[index];
@@ -79,7 +74,7 @@ namespace Prg282Prj
 
         private void btnSummary_Click(object sender, EventArgs e)
         {
-
+            GenerateSummary();
         }
 
         private void btnDelete_Click(object sender, EventArgs e)

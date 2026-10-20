@@ -83,7 +83,6 @@
             lblAnimalName.Size = new Size(39, 15);
             lblAnimalName.TabIndex = 3;
             lblAnimalName.Text = "Name";
-            lblAnimalName.Click += label2_Click;
             // 
             // lblSpecies
             // 
