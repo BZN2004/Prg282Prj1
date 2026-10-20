@@ -6,5 +6,4 @@ WR-0005|Bheki|Rhino|8|45|Stable|Recovery Ward
 WR-0006|Lola|Meerkat|2|75|Recovering|Outdoor Enclosure
 WR-0007|Simba|Lion|10|90|Release-Ready|Pre-Release Camp
 WR-0008|Jojo|Pangolin|5|12|Critical|Intensive Care Unit
-WR-0009|Chris|Cheetah|3|20|Serious|High-Dependency Ward
-WR-0010|Dumbo|Elephant|1|67|Recovering|Outdoor Enclosure
+WR-0009|Dumbo|Elephant|1|46|Stable|Recovery Ward

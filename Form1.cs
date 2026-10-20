@@ -22,18 +22,9 @@ namespace Prg282Prj
         }
 
         public void DataRefresh()
-        {
-            //Loading the correct columns for the datatable
-            dataHolder.Columns.Add("ID", typeof(string));
-            dataHolder.Columns.Add("Name", typeof(string));
-            dataHolder.Columns.Add("Species", typeof(string));
-            dataHolder.Columns.Add("Age", typeof(int));
-            dataHolder.Columns.Add("Recovery Score", typeof(int));
-            dataHolder.Columns.Add("Recovery Condition", typeof(string));
-            dataHolder.Columns.Add("Housing Unit", typeof(string));
-
-
-            string filePath = "animals.txt";
+        { 
+            string filePath = Path.Combine(Application.StartupPath, @"..\..\..\animals.txt");
+            dataHolder.Clear();
 
             //DataGridview Showing on opening of application
 
@@ -79,7 +70,43 @@ namespace Prg282Prj
 
         private void btnDelete_Click(object sender, EventArgs e)
         {
-           
+            string animalID = IDtxt.Text.Trim().ToUpper();
+            string filePath = Path.Combine(Application.StartupPath, @"..\..\..\animals.txt");
+
+            if (!animalID.StartsWith("WR-") || animalID.Length != 7 || !int.TryParse(animalID.Substring(3), out _))
+            {
+                MessageBox.Show("Animal ID must be WR- followed by exactly 4 digits (e.g., WR-0007).");
+                IDtxt.Focus();
+                return;
+            }
+
+            string[] lines = File.ReadAllLines(filePath);
+            List<string> list = new List<string>();
+            bool found = false;
+            foreach (string line in lines)
+            {
+                string[] strings = line.Split('|');
+                if (strings[0] == animalID)
+                {
+                    found = true;
+                }
+
+                if (!found)
+                {
+                    Animal animal = new Animal();
+                    animal.AnimalID = strings[0].ToString();
+                    animal.AnimalName = strings[1].ToString();
+                    animal.AnimalSpecies = strings[2].ToString();
+                    animal.AnimalAge = int.Parse(strings[3].ToString());
+                    animal.RecoveryScore = int.Parse(strings[4].ToString());
+                    animal.Classification();
+                    list.Add(animal.ToFileFormat());
+                }
+                found = false;
+            }
+
+            File.WriteAllLines(filePath, list);
+            DataRefresh();
         }
 
         private void btnAdd_Click(object sender, EventArgs e)
@@ -218,15 +245,6 @@ namespace Prg282Prj
          
          private void Form1_Load(object sender, EventArgs e)
         {
-            // Load any existing animals into the grid on startup
-            RefreshGrid();
-           
-        }
-
-
-        // Reads animals.txt and loads the records into the DataGridView.
-        private void RefreshGrid()
-        {
             //Loading the correct columns for the datatable
             dataHolder.Columns.Add("ID", typeof(string));
             dataHolder.Columns.Add("Name", typeof(string));
@@ -237,9 +255,19 @@ namespace Prg282Prj
             dataHolder.Columns.Add("Housing Unit", typeof(string));
 
 
-            string filePath = "animals.txt";
+            // Load any existing animals into the grid on startup
+            RefreshGrid();
+           
+        }
+
+
+        // Reads animals.txt and loads the records into the DataGridView.
+        private void RefreshGrid()
+        {
+            string filePath = Path.Combine(Application.StartupPath, @"..\..\..\animals.txt");
 
             //DataGridview Showing on opening of application
+            dataHolder.Rows.Clear();
 
             //checking if the file exists
             if (File.Exists(filePath))
