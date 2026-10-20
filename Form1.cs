@@ -15,6 +15,15 @@ namespace Prg282Prj
         {
 
         }
+        private void btnClear_Click(object sender, EventArgs e)
+{
+    // Clearing text from textboxes
+    IDtxt.Clear();
+    Nametxt.Clear();
+    Speciestxt.Clear();
+    Agetxt.Clear();
+    Scoretxt.Clear();
+}
 
         public void DataRefresh()
         {
@@ -132,12 +141,6 @@ namespace Prg282Prj
                 MessageBox.Show("Error deleting record: " + ex.Message);
             }
         }
-
-        private void btnDelete_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void btnAdd_Click(object sender, EventArgs e)
         {
 
@@ -307,7 +310,71 @@ private void RefreshGrid()
 
         private void btnSave_Click(object sender, EventArgs e)
         {
+             /* string id = txtAnimalId.Text.Trim();
+  string name = txtName.Text.Trim();
+  string species = txtSpecies.Text.Trim();
 
+  if (id.Length == 0 || name.Length == 0 || species.Length == 0)
+  {
+      MessageBox.Show("Animal ID, Name and Species are required.", "Missing Data",
+          MessageBoxButtons.OK, MessageBoxIcon.Warning);
+      return;
+  }
+  if (id.Contains("|") || name.Contains("|") || species.Contains("|"))
+  {
+      MessageBox.Show("The '|' character is not allowed.", "Invalid Character",
+          MessageBoxButtons.OK, MessageBoxIcon.Warning);
+      return;
+  }
+  if (!int.TryParse(txtAge.Text.Trim(), out int age) || age < 0)
+  {
+      MessageBox.Show("Age must be a whole number of 0 or more.", "Invalid Age",
+          MessageBoxButtons.OK, MessageBoxIcon.Warning);
+      return;
+  }
+  if (!int.TryParse(txtRecoveryScore.Text.Trim(), out int score) || score < 0 || score > 100)
+  {
+      MessageBox.Show("Recovery Score must be a whole number from 0 to 100.", "Invalid Score",
+          MessageBoxButtons.OK, MessageBoxIcon.Warning);
+      return;
+  }
+  var animal = new Animal
+  {
+      AnimalID = id,
+      AnimalName = name,
+      AnimalSpecies = species,
+      AnimalAge = age,
+      RecoveryScore = score
+  };
+  animal.Classification();
+
+  try
+  {
+      var lines = new List<string>(File.ReadAllLines(_filePath));
+      int index = lines.FindIndex(l =>
+          string.Equals(l.Split('|')[0].Trim(), id, StringComparison.OrdinalIgnoreCase));
+
+      if (index >= 0) lines[index] = animal.ToFileFormat();
+      else lines.Add(animal.ToFileFormat());
+
+      File.WriteAllLines(_filePath, lines);
+  }
+  catch (UnauthorizedAccessException)
+  {
+      MessageBox.Show("Access to animals.txt was denied. Nothing was saved.", "Permission Error",
+          MessageBoxButtons.OK, MessageBoxIcon.Error);
+      return;
+  }
+  catch (IOException)
+  {
+      MessageBox.Show("animals.txt is in use by another program. Nothing was saved.", "File In Use",
+          MessageBoxButtons.OK, MessageBoxIcon.Warning);
+      return;
+  }
+
+  // 4. Refresh the grid
+  LoadAnimals();
+ */
         }
 
         private void btnUpdate_Click(object sender, EventArgs e)
