@@ -184,7 +184,7 @@
             btnSummary.Name = "btnSummary";
             btnSummary.Size = new Size(127, 23);
             btnSummary.TabIndex = 13;
-            btnSummary.Text = "Summarize";
+            btnSummary.Text = "Generate Summary";
             btnSummary.UseVisualStyleBackColor = true;
             btnSummary.Click += btnSummary_Click;
             // 
