@@ -18,8 +18,20 @@ namespace Prg282Prj
 
         public void DataRefresh()
         {
-            dataHolder.Rows.Clear();
-            string filePath = Path.Combine(Application.StartupPath, @"..\..\..\animals.txt");
+            //Loading the correct columns for the datatable
+            dataHolder.Columns.Add("ID", typeof(string));
+            dataHolder.Columns.Add("Name", typeof(string));
+            dataHolder.Columns.Add("Species", typeof(string));
+            dataHolder.Columns.Add("Age", typeof(int));
+            dataHolder.Columns.Add("Recovery Score", typeof(int));
+            dataHolder.Columns.Add("Recovery Condition", typeof(string));
+            dataHolder.Columns.Add("Housing Unit", typeof(string));
+
+
+            string filePath = "animals.txt";
+
+            //DataGridview Showing on opening of application
+
             //checking if the file exists
             if (File.Exists(filePath))
             {
@@ -236,40 +248,8 @@ namespace Prg282Prj
          }
          private void btnSearch_Click(object sender, EventArgs e)
          {
-            string search = txtSearchID.Text.Trim();
-            bool found = false;
 
-            if (!search.StartsWith("WR-") || string.IsNullOrEmpty(search) || search.Length != 7)
-            {
-                MessageBox.Show("Invalid ID", "Please enter a valid ID (WR-0001)", MessageBoxButtons.OK);
-                txtSearchID.Focus();
-                return;
-            }
-
-            dgvAnimals.ClearSelection();
-
-            foreach (DataGridViewRow r in dgvAnimals.Rows)
-            {
-                if (r.IsNewRow)
-                {
-                    continue;
-                }
-
-                if (r.Cells[0].Value.ToString().Trim().ToUpper() == search)
-                {
-                    dgvAnimals.ClearSelection();
-                    r.Selected = true;
-                    dgvAnimals.CurrentCell = r.Cells[0];
-                    found = true;
-                }
-            }
-
-            if (!found)
-            {
-                MessageBox.Show("ID Not Found");
-                return;
-            }
-        }
+         }
 
          private void btnClear_Click(object sender, EventArgs e)
          {
@@ -294,48 +274,42 @@ namespace Prg282Prj
         /// Reads animals.txt and loads the records into the DataGridView.
         /// </summary>
         private void RefreshGrid()
-{
-  /*  try
-    {
-        var list = new System.Collections.Generic.List<Animal>();
-        string[] lines = ReadAnimalFileLines();
-        if (lines == null)
-            return; // read error already shown to user
-
-        foreach (string line in lines)
         {
-            if (string.IsNullOrWhiteSpace(line))
-                continue;
+            //Loading the correct columns for the datatable
+            dataHolder.Columns.Add("ID", typeof(string));
+            dataHolder.Columns.Add("Name", typeof(string));
+            dataHolder.Columns.Add("Species", typeof(string));
+            dataHolder.Columns.Add("Age", typeof(int));
+            dataHolder.Columns.Add("Recovery Score", typeof(int));
+            dataHolder.Columns.Add("Recovery Condition", typeof(string));
+            dataHolder.Columns.Add("Housing Unit", typeof(string));
 
-            string[] parts = line.Split('|');
-            // skip malformed lines that do not contain at least ID,Name,Species,Age,Score
-            if (parts.Length < 5)
-                continue;
 
-            var a = new Animal();
-            a.AnimalID = parts[0].Trim();
-            a.AnimalName = parts[1].Trim();
-            a.AnimalSpecies = parts[2].Trim();
-            if (int.TryParse(parts[3].Trim(), out int age))
-                a.AnimalAge = age;
-            if (int.TryParse(parts[4].Trim(), out int score))
-                a.RecoveryScore = score;
+            string filePath = "animals.txt";
 
-            // Recompute classification to ensure Status/Housing are populated
-            a.Classification();
+            //DataGridview Showing on opening of application
 
-            list.Add(a);
+            //checking if the file exists
+            if (File.Exists(filePath))
+            {
+                FileStream fs = new FileStream(filePath, FileMode.Open);
+                StreamReader sr = new StreamReader(fs);
+
+                string line;
+                //Getting each line in the text file
+                while ((line = sr.ReadLine()) != null)
+                {
+                    //Creating a array that holds each seperate value of the animal
+                    string[] lines = line.Split('|');
+                    //Adding each value into the correct column with the correct type
+                    dataHolder.Rows.Add(lines[0], lines[1], lines[2], int.Parse(lines[3]), int.Parse(lines[4]), lines[5], lines[6]);
+                }
+                sr.Close();
+                fs.Close();
+                //Setting it to show in the datagridview
+                dgvAnimals.DataSource = dataHolder;
+            }
         }
-
-        dgvAnimals.DataSource = null;
-        dgvAnimals.DataSource = list;
-    }
-    catch (Exception ex)
-    {
-        MessageBox.Show("Error loading data: " + ex.Message);
-    }
-  */
-}
         
 
         private void btnSave_Click(object sender, EventArgs e)
