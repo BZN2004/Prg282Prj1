@@ -250,10 +250,10 @@ namespace Prg282Prj
          }
 
 
-             private void Form1_Load(object sender, EventArgs e)
- {
-     // Load any existing animals into the grid on startup
-     RefreshGrid();
+         private void Form1_Load(object sender, EventArgs e)
+        {
+            // Load any existing animals into the grid on startup
+            RefreshGrid();
            
         }
 
