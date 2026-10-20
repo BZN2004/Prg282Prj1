@@ -4,7 +4,7 @@ namespace Prg282Prj
 {
     public partial class Form1 : Form
     {
-        //DataTable holding all data fro the datagridview
+        //DataTable holding all data fro the dgv
         DataTable dataHolder = new DataTable();
         public Form1()
         {
