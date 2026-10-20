@@ -248,8 +248,41 @@ namespace Prg282Prj
          }
          private void btnSearch_Click(object sender, EventArgs e)
          {
+            string search = txtSearchID.Text.Trim();
+            bool found = false;
 
+            if (!search.StartsWith("WR-") || string.IsNullOrEmpty(search) || search.Length != 7)
+            {
+                MessageBox.Show("Invalid ID", "Please enter a valid ID (WR-0001)", MessageBoxButtons.OK);
+                txtSearchID.Focus();
+                return;
+            }
+
+            dgvAnimals.ClearSelection();
+
+            foreach (DataGridViewRow r in dgvAnimals.Rows)
+            {
+                if (r.IsNewRow)
+                {
+                    continue;
+                }
+
+                if (r.Cells[0].Value.ToString().Trim().ToUpper() == search)
+                {
+                    dgvAnimals.ClearSelection();
+                    r.Selected = true;
+                    dgvAnimals.CurrentCell = r.Cells[0];
+                    found = true;
+                }
+            }
+
+            if (!found)
+            {
+                MessageBox.Show("ID Not Found");
+                return;
+            }
          }
+         
 
          private void btnClear_Click(object sender, EventArgs e)
          {
